@@ -1,1 +1,6 @@
+# Force specific languages
 Makefile linguist-language=Makefile
+.gitignore linguist-documentation
+
+# Tell GitHub to never detect Roff in this repo
+*.md linguist-language=Markdown
