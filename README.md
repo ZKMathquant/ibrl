@@ -16,14 +16,18 @@ This repository implements:
 - **Bayesian Q-Learning**: Bayesian posterior updating
 - **Infrabayesian Q-Learning (IB-Q)**: Credal set + worst-case optimization
 
-## Key Features
+## Key Features:
 
-✅ Policy-dependent environments (Newcomb's Problem) 
-✅ Classical environments (Multi-armed bandits) 
-✅ Logical predictor modeling 
-✅ Credal interval belief updating 
-✅ Convergence guarantees 
-✅ Comprehensive experiments 
+- Policy-dependent environments (Newcomb's Problem)
+- 
+- Classical environments (Multi-armed bandits)
+
+- Logical predictor modeling 
+
+- Credal interval belief updating 
+
+- Convergence guarantees 
+
 
 
 
