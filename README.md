@@ -18,6 +18,42 @@ This repository implements:
 
 Check out how did we do https://github.com/ZKMathquant/ibrl/blob/main/ibrl_comparison.png
 
+
+
+
+# Plots interpretation:
+
+
+```
+Newcomb's Problem: This is a classic decision-theory paradox. The plot shows the IB agent (red line) and the Classical agent (blue line) maintaining a high reward (
+), while the standard Bayesian agent (green line) fails significantly, achieving a much lower reward (
+). This suggests the IB approach successfully avoids common pitfalls in this specific causal decision-making scenario where standard Bayesian logic often "chooses poorly."
+
+```
+```
+Bandit Environment: In this standard RL test, all three agents (Classical, Bayesian, and IB) appear to perform relatively similarly, hovering around a reward level of 0.6 to 0.7. The "fuzziness" (shaded areas) represents the variance or uncertainty in their rewards across different episodes.
+```
+```
+Policy Convergence (Newcomb): The IB agent (red line) stays at a perfect 1.0 convergence rate, indicating it consistently finds and stays with the optimal decision policy.
+ The Classical agent (blue) is slightly less stable.
+```
+```
+Credal Interval Convergence (IB Agent): This specific plot shows a measure of "uncertainty" (the credal interval) for the IB agent. 
+The downward trend indicates that as the agent experiences more episodes, its uncertainty about the environment decreases, which is a sign of healthy learning
+```
+```
+Declining Uncertainty: The Y-axis represents the "Interval Width" (a measure of the agent's doubt or lack of information). As the number of training episodes increases (X-axis), the width of this interval drops sharply from around 0.19 to below 0.08.
+```
+```
+Learning Stability: The solid red line shows the average interval width, while the shaded red area represents the variance (uncertainty range). The fact that the shaded area narrows along with the line indicates that the agent is becoming both more certain and more consistent in its decisions.
+```
+
+
+
+
+
+
+
 # Key Features:
 
 - Policy-dependent environments (Newcomb's Problem)
@@ -494,11 +530,6 @@ Q4: Why does IB work?
 
 
 
-
-
-
-
-
 # Citation:
 ```
 @software{ibrl2026,
@@ -566,6 +597,14 @@ Q4: Why does IB work?
     └── test_twin_pd.py
 
 ```
+
+
+
+
+
+
+
+
 
 
 # License:
