@@ -16,6 +16,8 @@ This repository implements:
 - **Bayesian Q-Learning**: Bayesian posterior updating
 - **Infrabayesian Q-Learning (IB-Q)**: Credal set + worst-case optimization
 
+Check out how did we do https://github.com/ZKMathquant/ibrl/blob/main/ibrl_comparison.png
+
 # Key Features:
 
 - Policy-dependent environments (Newcomb's Problem)
