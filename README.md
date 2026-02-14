@@ -19,7 +19,7 @@ This repository implements:
 ## Key Features:
 
 - Policy-dependent environments (Newcomb's Problem)
-- 
+  
 - Classical environments (Multi-armed bandits)
 
 - Logical predictor modeling 
