@@ -41,7 +41,6 @@ htmlcov/
 .ipynb_checkpoints
 
 # Results
-*.png
 *.pdf
 results/
 logs/
