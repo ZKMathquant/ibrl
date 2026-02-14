@@ -3,20 +3,20 @@
 A formally grounded, empirically validated framework for reinforcement learning in policy-dependent environments using imprecise probability theory.
 
 
-## Theoretical Background
+# Theoretical Background
 
 This implementation is motivated fron infrabayesian decision theory developed by 
 Vanessa Kosoy. For alternative implementations, see:
 - [norabelrose/infrabayes](https://github.com/norabelrose/infrabayes) - mentioned to be a partial implementation of the same.
 
-## Overview
+# Overview
 
 This repository implements:
 - **Classical Q-Learning**: Standard point-estimate RL
 - **Bayesian Q-Learning**: Bayesian posterior updating
 - **Infrabayesian Q-Learning (IB-Q)**: Credal set + worst-case optimization
 
-## Key Features:
+# Key Features:
 
 - Policy-dependent environments (Newcomb's Problem)
   
@@ -31,7 +31,7 @@ This repository implements:
 
 
 
-##Usage:
+# Usage:
 
 ```
 python -m venv .venv
@@ -76,6 +76,7 @@ feh ibrl_comparison.png
 ```
 
 ## 2. Infrabayesian Value Function
+
 ```
 
 Q_IB(s,a) = min_{θ ∈ Θ_t} E_θ[R + γV(s') | s,a,π]
@@ -95,7 +96,7 @@ where ε_t = sqrt(log(2/δ) / (2n))
 
 
 
-4. Performance Optimization:
+# Performance Optimization:
 
 The framework includes:
 
@@ -114,7 +115,8 @@ compare_all(n_trials=100, episodes=10000, parallel=True)
 
 
 
-Research Questions Answered:
+# Research Questions Answered:
+
 ```
 Q1: Do IBRL agents work on classical environments?
 Yes. IB-Q performs comparably to classical Q-learning on standard bandits.
@@ -128,8 +130,9 @@ Yes. Classical Q-learning oscillates or converges to two-boxing (~50% reward).
 Q4: Theoretical implications?
 Policy-dependent environments require robust decision theory. Single-model assumptions fail when the environment depends on your policy.
 ```
-## Architecture:
-# Agents:
+# Architecture:
+
+## Agents:
 ```
 ClassicalQAgent: ε-greedy Q-learning
 
@@ -137,7 +140,7 @@ BayesianQAgent: Posterior belief updating
 
 IBQAgent: Credal interval + worst-case value
 ```
-# Environments :
+## Environments :
 ```
 BanditEnv: Classical multi-armed bandit
 
@@ -148,19 +151,20 @@ TransparentNewcombEnv: Observable box state
 TwinPDEnv: Twin Prisoner's Dilemma with policy-dependent opponent
 ```
 
-#Belief Model:
+## Belief Model:
 ```
 CredalInterval: Concentration-bound interval updating
 CredalRectangle`: N-dimensional credal intervals
 ```
 
-#Predictor:
+## Predictor:
 ```
 LogicalPredictor: Inspects policy, predicts with accuracy θ
 ```
 
 ## Mathematical Foundation :
-#Policy-Dependent MDP
+
+## Policy-Dependent MDP
 ```
 
 M = (S, A, Θ, T_θ^π, R)
@@ -168,18 +172,19 @@ M = (S, A, Θ, T_θ^π, R)
 Where transition T depends on both θ and policy π.
 ```
 
-#IB Value Function :
+## IB Value Function :
+
 ```
 Q_IB(s,a) = min_{θ ∈ Θ_t} E_θ[R + γV(s') | s,a,π]
 ```
 
-#Credal Update Rule:
+## Credal Update Rule:
 ```
 Θ_t = [max(0, p̂ - ε_t), min(1, p̂ + ε_t)]
 ε_t = sqrt(log(2/δ) / (2n))
 ```
 
-## Results:
+# Results:
 
 ```
 tests/test_bandit_env.py::test_bandit_reset PASSED                                                                                                                   [  5%]
@@ -290,16 +295,19 @@ THEORETICAL IMPLICATIONS
    → Policy stabilizes as uncertainty decreases
    → Provable convergence guarantees
 
+
 ✓ Plot saved to ibrl_comparison.png
 
 ✓ Comparison complete. Results saved to ibrl_comparison.png
-'''
-
-
-## Result Interpretation:
-
 ```
 
+
+# Result_Interpretation:
+
+
+
+
+```
 1. BANDIT ENVIRONMENT (Classical RL Task)
 Classical   : 0.640 ± 0.480
 Bayesian    : 0.670 ± 0.470
@@ -578,8 +586,13 @@ Can't guarantee, overview right away however
 ```
 
 # Roadmap:
+
  Function approximation (neural networks)
+
  Multi-step environments
+
  Continuous action spaces
+
  Formal proof verification
+
  arXiv paper submission
