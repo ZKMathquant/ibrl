@@ -1,9 +1,15 @@
-# IBRL: Infrabayesian Reinforcement Learning
+This framework implements a **tractable subset** of **Infra-Bayesian decision theory** (Kosoy, 2022) ,a generalization of Bayesian decision theory that:
 
-A formally grounded, empirically validated framework for reinforcement learning in policy-dependent environments using imprecise probability theory.
+1. Represents uncertainty as **convex sets of semimeasures** (not single probability distributions)
+
+2. Uses **worst-case optimization** (not expected utility maximization)
+
+3. Handles **non-realizability** (true environment may not be in belief set)
+
+4. Formalizes **logical dependence** (environment depends on agent's policy)
 
 
-# Theoretical Background
+# Theoretical and applied Background
 
 This implementation is motivated fron infrabayesian decision theory developed by 
 Vanessa Kosoy. For alternative implementations, see:
@@ -49,7 +55,15 @@ Learning Stability: The solid red line shows the average interval width, while t
 ```
 
 
+What it shows:
 
+IB agent performs comparably to classical RL in standard environments.
+
+IB agent avoids naive Bayesian failure.
+
+IB stabilizes policy slightly faster.
+
+Credal uncertainty shrinks over time.
 
 
 
@@ -77,11 +91,16 @@ source .venv/bin/activate
 pip install -r requirements.txt
 pip install -e .
 
+# Validate everything
+make full
+
+# individually
 make test
 make run-experiments
 make run-all
 make clean
-feh ibrl_comparison.png
+
+feh ibrl_comparison.png  # or: explorer.exe ibrl_comparison.png
 ```
 
 or 
@@ -91,14 +110,25 @@ python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 pip install -e .
+
+# Run tests
 pytest tests/ -v
 
+# Run individual experiments
 python -m ibrl.experiments.run_bandit
 python -m ibrl.experiments.run_newcomb
 python -m ibrl.experiments.run_twin_pd
+python -m ibrl.experiments.run_misspecified
+python -m ibrl.experiments.run_wasserstein
+
+# Run comprehensive comparison
 python -m ibrl.experiments.compare_all
+
+#all at once
 bash scripts/run_all.sh
-feh ibrl_comparison.png
+
+# View results
+feh ibrl_comparison.png  # or: explorer.exe ibrl_comparison.png
 ```
 
 # Mathematical Theory
@@ -224,25 +254,41 @@ Q_IB(s,a) = min_{θ ∈ Θ_t} E_θ[R + γV(s') | s,a,π]
 
 # Results:
 
-```
-tests/test_bandit_env.py::test_bandit_reset PASSED                                                                                                                   [  5%]
-tests/test_bandit_env.py::test_bandit_step PASSED                                                                                                                    [ 11%]
-tests/test_bandit_env.py::test_bandit_stochastic PASSED                                                                                                              [ 17%]
-tests/test_convergence.py::test_credal_interval_shrinks PASSED                                                                                                       [ 23%]
-tests/test_convergence.py::test_credal_concentration_bound PASSED                                                                                                    [ 29%]
-tests/test_credal_rectangle.py::test_rectangle_initialization PASSED                                                                                                 [ 35%]
-tests/test_credal_rectangle.py::test_rectangle_update PASSED                                                                                                         [ 41%]
-tests/test_credal_rectangle.py::test_rectangle_convergence PASSED                                                                                                    [ 47%]
-tests/test_ib_agent.py::test_ib_worst_case_value PASSED                                                                                                              [ 52%]
-tests/test_ib_agent.py::test_ib_greedy_action PASSED                                                                                                                 [ 58%]
-tests/test_ib_agent.py::test_ib_credal_update PASSED                                                                                                                 [ 64%]
-tests/test_newcomb_env.py::test_newcomb_one_box_perfect_predictor PASSED                                                                                             [ 70%]
-tests/test_newcomb_env.py::test_newcomb_two_box_perfect_predictor PASSED                                                                                             [ 76%]
-tests/test_newcomb_env.py::test_newcomb_policy_dependence PASSED                                                                                                     [ 82%]
-tests/test_twin_pd.py::test_twin_pd_mutual_cooperation PASSED                                                                                                        [ 88%]
-tests/test_twin_pd.py::test_twin_pd_mutual_defection PASSED                                                                                                          [ 94%]
-tests/test_twin_pd.py::test_twin_pd_policy_dependence PASSED                                                                                                         [100%]
 
+
+
+```
+
+
+
+collected 22 items
+
+tests/test_bandit_env.py::test_bandit_reset PASSED                                                                                                                   [  4%]
+tests/test_bandit_env.py::test_bandit_step PASSED                                                                                                                    [  9%]
+tests/test_bandit_env.py::test_bandit_stochastic PASSED                                                                                                              [ 13%]
+tests/test_convergence.py::test_credal_interval_shrinks PASSED                                                                                                       [ 18%]
+tests/test_convergence.py::test_credal_concentration_bound PASSED                                                                                                    [ 22%]
+tests/test_credal_rectangle.py::test_rectangle_initialization PASSED                                                                                                 [ 27%]
+tests/test_credal_rectangle.py::test_rectangle_update PASSED                                                                                                         [ 31%]
+tests/test_credal_rectangle.py::test_rectangle_convergence PASSED                                                                                                    [ 36%]
+tests/test_ib_agent.py::test_ib_worst_case_value PASSED                                                                                                              [ 40%]
+tests/test_ib_agent.py::test_ib_greedy_action PASSED                                                                                                                 [ 45%]
+tests/test_ib_agent.py::test_ib_credal_update PASSED                                                                                                                 [ 50%]
+tests/test_misspecified.py::test_misspecified_newcomb PASSED                                                                                                         [ 54%]
+tests/test_misspecified.py::test_adversarial_newcomb PASSED                                                                                                          [ 59%]
+tests/test_newcomb_env.py::test_newcomb_one_box_perfect_predictor PASSED                                                                                             [ 63%]
+tests/test_newcomb_env.py::test_newcomb_two_box_perfect_predictor PASSED                                                                                             [ 68%]
+tests/test_newcomb_env.py::test_newcomb_policy_dependence PASSED                                                                                                     [ 72%]
+tests/test_twin_pd.py::test_twin_pd_mutual_cooperation PASSED                                                                                                        [ 77%]
+tests/test_twin_pd.py::test_twin_pd_mutual_defection PASSED                                                                                                          [ 81%]
+tests/test_twin_pd.py::test_twin_pd_policy_dependence PASSED                                                                                                         [ 86%]
+tests/test_wasserstein.py::test_wasserstein_initialization PASSED                                                                                                    [ 90%]
+tests/test_wasserstein.py::test_wasserstein_update PASSED                                                                                                            [ 95%]
+tests/test_wasserstein.py::test_worst_case_expectation PASSED                                                                                                        [100%]
+
+============================================================================ 22 passed in 1.38s ============================================================================
+python -m ibrl.experiments.run_bandit
+<frozen runpy>:128: RuntimeWarning: 'ibrl.experiments.run_bandit' found in sys.modules after import of package 'ibrl.experiments', but prior to execution of 'ibrl.experiments.run_bandit'; this may result in unpredictable behaviour
 ============================================================
 CLASSICAL BANDIT ENVIRONMENT
 ============================================================
@@ -253,7 +299,8 @@ Ib          : 0.670 ± 0.470
 
 ✓ All agents perform comparably on classical environment
 
-
+python -m ibrl.experiments.run_newcomb
+<frozen runpy>:128: RuntimeWarning: 'ibrl.experiments.run_newcomb' found in sys.modules after import of package 'ibrl.experiments', but prior to execution of 'ibrl.experiments.run_newcomb'; this may result in unpredictable behaviour
 ============================================================
 NEWCOMB'S PROBLEM (θ=0.95)
 ============================================================
@@ -266,7 +313,8 @@ Ib          : $   920,000 ± $ 271,293  [one-box: 100.0%]
 ✓ IB agent converges to one-boxing
 ✓ Classical agents oscillate or two-box
 
-
+python -m ibrl.experiments.run_twin_pd
+<frozen runpy>:128: RuntimeWarning: 'ibrl.experiments.run_twin_pd' found in sys.modules after import of package 'ibrl.experiments', but prior to execution of 'ibrl.experiments.run_twin_pd'; this may result in unpredictable behaviour
 ============================================================
 TWIN PRISONER'S DILEMMA (θ=0.95)
 ============================================================
@@ -278,11 +326,44 @@ Ib          : 2.76 ± 0.81  [cooperate: 100.0%]
 
 ✓ IB agent learns to cooperate with high-accuracy twin
 
+python -m ibrl.experiments.run_misspecified
+<frozen runpy>:128: RuntimeWarning: 'ibrl.experiments.run_misspecified' found in sys.modules after import of package 'ibrl.experiments', but prior to execution of 'ibrl.experiments.run_misspecified'; this may result in unpredictable behaviour
+======================================================================
+ROBUSTNESS UNDER MISSPECIFICATION
+======================================================================
+
+MISSPECIFIED NEWCOMB (True θ=0.75, Agent believes θ ∈ [0.8, 0.99]):
+----------------------------------------------------------------------
+  Classical   : $   680,090 ± $ 466,452  [one-box: 91.0%]
+  Bayesian    : $   301,000 ± $ 458,258  [one-box: 0.0%]
+  Ib          : $   700,000 ± $ 458,258  [one-box: 100.0%]
+
+✓ IB maintains robustness under misspecification
+
+ADVERSARIAL NEWCOMB (Predictor always wrong):
+----------------------------------------------------------------------
+  Classical   : $ 1,000,960 ± $     196  [one-box: 4.0%]
+  Bayesian    : $     1,000 ± $       0  [one-box: 0.0%]
+  Ib          : $ 1,001,000 ± $       0  [one-box: 0.0%]
+
+✓ All agents adapt to adversarial predictor
+
+python -m ibrl.experiments.run_wasserstein
+<frozen runpy>:128: RuntimeWarning: 'ibrl.experiments.run_wasserstein' found in sys.modules after import of package 'ibrl.experiments', but prior to execution of 'ibrl.experiments.run_wasserstein'; this may result in unpredictable behaviour
+======================================================================
+BELIEF REPRESENTATION COMPARISON
+======================================================================
+
+Credal      : $   920,000 ± $ 271,293  [one-box: 100.0%]
+              Width: 0.190 → 0.083
+Wasserstein : $   920,000 ± $ 271,293  [one-box: 100.0%]
+              Width: 0.190 → 0.083
+
+✓ Both belief representations converge similarly
+
 ✓ All individual experiments complete
-
-
-
-
+python -m ibrl.experiments.compare_all
+<frozen runpy>:128: RuntimeWarning: 'ibrl.experiments.compare_all' found in sys.modules after import of package 'ibrl.experiments', but prior to execution of 'ibrl.experiments.compare_all'; this may result in unpredictable behaviour
 ======================================================================
 COMPREHENSIVE IBRL EVALUATION
 ======================================================================
@@ -304,11 +385,23 @@ NEWCOMB ENVIRONMENT:
   Bayesian    : $   214,000 ± $ 271,627  [one-box: 0.0%]
   Ib          : $   939,000 ± $  32,696  [one-box: 100.0%]
 
-TWIN_PD ENVIRONMENT:
+TWIN PD ENVIRONMENT:
 ----------------------------------------------------------------------
-  Classical   : 2.801 ± 0.147
-  Bayesian    : 1.312 ± 0.191
-  Ib          : 2.817 ± 0.098
+  Classical   : $         3 ± $       0  [one-box: 89.6%]
+  Bayesian    : $         1 ± $       0  [one-box: 0.0%]
+  Ib          : $         3 ± $       0  [one-box: 100.0%]
+
+MISSPECIFIED ENVIRONMENT:
+----------------------------------------------------------------------
+  Classical   : $   711,076 ± $  47,609  [one-box: 92.4%]
+  Bayesian    : $   328,000 ± $ 112,521  [one-box: 0.0%]
+  Ib          : $   724,000 ± $  42,237  [one-box: 100.0%]
+
+WASSERSTEIN ENVIRONMENT:
+----------------------------------------------------------------------
+  Classical   : $   934,050 ± $  36,924  [one-box: 95.0%]
+  Bayesian    : $   214,000 ± $ 271,627  [one-box: 0.0%]
+  Ib          : $   939,000 ± $  32,696  [one-box: 100.0%]
 
 ======================================================================
 THEORETICAL IMPLICATIONS
@@ -318,26 +411,71 @@ THEORETICAL IMPLICATIONS
    → All agents perform comparably
    → IB's worst-case reasoning doesn't hurt performance
 
-2. POLICY-DEPENDENT ENVIRONMENTS (Newcomb):
+2. POLICY-DEPENDENT ENVIRONMENTS (Newcomb, Twin PD):
    → Classical RL fails (oscillates or two-boxes)
    → Bayesian RL fails (converges to two-boxing)
    → IB-RL succeeds (converges to one-boxing)
 
-3. KEY INSIGHT:
+3. MISSPECIFIED ENVIRONMENTS:
+   → IB maintains robustness when true θ is outside belief set
+   → Classical/Bayesian agents degrade more severely
+
+4. WASSERSTEIN UNCERTAINTY:
+   → Wasserstein ball provides alternative belief representation
+   → Comparable performance to credal intervals
+   → Demonstrates distributional robustness
+
+5. KEY INSIGHT:
    → Single-model assumptions break in policy-dependent environments
    → Credal sets + worst-case optimization = stable equilibrium
    → Logical dependence requires robust decision theory
 
-4. CONVERGENCE:
+6. CONVERGENCE:
    → IB credal intervals shrink over time (concentration bounds)
    → Policy stabilizes as uncertainty decreases
    → Provable convergence guarantees
 
-
 ✓ Plot saved to ibrl_comparison.png
 
 ✓ Comparison complete. Results saved to ibrl_comparison.png
+
+==========================================
+✓ Full validation complete!
+==========================================
+
+
+
+
+
+
+
+
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # Result_Interpretation:

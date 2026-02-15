@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 echo "=========================================="
 echo "IBRL Framework - Complete Evaluation"
 echo "=========================================="
@@ -28,6 +27,16 @@ echo ""
 # Run Twin PD experiment
 echo "Running Twin PD experiment..."
 python -m ibrl.experiments.run_twin_pd
+echo ""
+
+# Run misspecified experiment
+echo "Running misspecified experiment..."
+python -m ibrl.experiments.run_misspecified
+echo ""
+
+# Run Wasserstein comparison
+echo "Running Wasserstein comparison..."
+python -m ibrl.experiments.run_wasserstein
 echo ""
 
 # Run comprehensive comparison
