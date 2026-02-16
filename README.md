@@ -23,6 +23,7 @@ This repository implements:
 - **Infrabayesian Q-Learning (IB-Q)**: Credal set + worst-case optimization
 
 Check out how did we do https://github.com/ZKMathquant/ibrl/blob/main/ibrl_comparison.png
+Find some useful theory at https://github.com/ZKMathquant/ibrl/blob/main/docs/theory.pdf 
 
 
 
